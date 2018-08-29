@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     Rigidbody rb;
-    public Camera mainCamera;
     public Vector3 mousePosition;
     public GameObject jumpCheckObject;
     float changeAmountAxisY;
@@ -134,6 +133,16 @@ public class Player : MonoBehaviour {
             Debug.Log("飛べないよ");
         }
         return;
+    }
+
+    void LightUp() {
+        RaycastHit hit;
+        if(Physics.Raycast(this.transform.position, this.transform.forward, out hit)) {
+            if(hit.collider.tag == "Enemy") {
+                //Enemyを止めます
+                
+            }
+        }
     }
 
 }
