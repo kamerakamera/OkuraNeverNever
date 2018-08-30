@@ -24,8 +24,29 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Stop();
+        }
+    }
+
     void FixedUpdate()
     {
-        navMeshAgent.SetDestination(targetTrfm.position);
+        if (targetTrfm != null)
+        {
+            navMeshAgent.SetDestination(targetTrfm.position);
+        }
+    }
+
+    public void Stop()
+    {
+        navMeshAgent.isStopped = true;
+    }
+
+    public void Restart()
+    {
+        navMeshAgent.isStopped = false;
     }
 }
