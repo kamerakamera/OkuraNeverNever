@@ -17,13 +17,16 @@ public class Player : MonoBehaviour {
     int straight, side;
     public float movePower,jumpPower;
     AudioSource audioSource;
-    public AudioClip audioClip;
+    public Image deathImage;
+    public Light light;
 
 
     // Use this for initialization
     void Start() {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        deathImage.enabled = false;
+        //Death();
         //movePower = 3;
         //jumpPower = 10;
     }
@@ -111,7 +114,7 @@ public class Player : MonoBehaviour {
     void CheckJumpAble() {
         Collider[] checkObject;
         jumpAble = false;
-        checkObject = Physics.OverlapSphere(jumpCheckObject.transform.position, 1f);
+        checkObject = Physics.OverlapSphere(jumpCheckObject.transform.position, 0.5f);
         if(checkObject == null) {
             jumpAble = false;
             return;
@@ -128,9 +131,9 @@ public class Player : MonoBehaviour {
 
         }
         if(jumpAble == true) {
-            Debug.Log("飛べるよ");
+            //Debug.Log("飛べるよ");
         } else {
-            Debug.Log("飛べないよ");
+            //Debug.Log("飛べないよ");
         }
         return;
     }
@@ -143,6 +146,19 @@ public class Player : MonoBehaviour {
                 
             }
         }
+    }
+
+    void Death() {
+        deathImage.enabled = true;
+        audioSource.Play();
+        light.enabled = false;
+        StartCoroutine("LoadTitleScene");
+    }
+
+    private IEnumerator LoadTitleScene() {
+        yield return new WaitForSeconds(2.0f);
+        SceneManager.LoadScene("StartScene");
+        yield break;
     }
 
 }
