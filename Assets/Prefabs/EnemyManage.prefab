@@ -55,9 +55,8 @@ MonoBehaviour:
   generatePoint:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
   playerTrfm: {fileID: 0}
   canGenerate: 1
-  generateInterval: 3
-  minGeneSqrDistance: 10
-  surviveTime: 5
+  generateInterval: 10
+  minGeneSqrDistance: 25
+  surviveTime: 10
