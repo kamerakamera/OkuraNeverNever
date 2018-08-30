@@ -52,7 +52,7 @@ public class EnemyManage : MonoBehaviour
         for (int i = 0; i < generatePoint.Length; i++)
         {
             float testDistance = Vector3.SqrMagnitude(generatePoint[i].position - playerTrfm.position);
-            if (i == 0 || (nearDistance > testDistance && testDistance > minGeneSqrDistance))
+            if ((nearDistance == 0.0f || nearDistance > testDistance) && testDistance > minGeneSqrDistance)
             {
                 index = i;
                 nearDistance = testDistance;
