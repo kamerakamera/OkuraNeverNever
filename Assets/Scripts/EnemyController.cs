@@ -24,14 +24,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Stop();
-        }
-    }
-
     void FixedUpdate()
     {
         if (targetTrfm != null)
