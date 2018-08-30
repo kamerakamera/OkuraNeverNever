@@ -44,4 +44,9 @@ public class EnemyController : MonoBehaviour
     {
         navMeshAgent.isStopped = true;
     }
+
+    public void Restart()
+    {
+        navMeshAgent.isStopped = false;
+    }
 }
