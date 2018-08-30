@@ -101,7 +101,7 @@ public class Player : MonoBehaviour {
         }
         if (isJump) {
             jumpCoolTime += Time.fixedDeltaTime;
-            if (jumpCoolTime >= 2) {
+            if (jumpCoolTime >= 0.3f) {
                 jumpCoolTime = 0;
                 isJump = false;
             }
