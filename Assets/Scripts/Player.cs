@@ -9,23 +9,34 @@ public class Player : MonoBehaviour {
     public Vector3 mousePosition;
     public GameObject jumpCheckObject;
     float changeAmountAxisY;
-    public static float rotateSensitivityPower = 4;
+    public float rotateSensitivityPower = 4;
     float jumpCoolTime = 0;
-    bool isJump;
+    bool isJump,deathAccept;
     Vector3 moveDirection;
-    bool front, back, right, left, up,jumpAble;
+    bool front, back, right, left, up,jumpAble,vibration,lightCheck, lasttimeLightCheck;
     int straight, side;
     public float movePower,jumpPower;
     AudioSource audioSource;
     public Image deathImage;
-    public Light light;
+    public Light playerLight;
+    public GameObject enemy;
+    public EnemyController enemyController;
+    public Camera mainCamera;
+    public EnemyManage enemyManage;
+    Vector3 cameraPosition;
 
 
     // Use this for initialization
     void Start() {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        playerLight.enabled = true;
+        deathAccept = false;
         deathImage.enabled = false;
+        vibration = false ;
+        enemyController = enemy.GetComponent<EnemyController>();
+        lightCheck = false;
+        lasttimeLightCheck = false;
         //Death();
         //movePower = 3;
         //jumpPower = 10;
@@ -40,6 +51,10 @@ public class Player : MonoBehaviour {
     void FixedUpdate() {
         Move();
         lookAround();
+        LightUp();
+        if (vibration) {
+            Vibration();
+        }
     }
 
     void lookAround() {
@@ -57,41 +72,43 @@ public class Player : MonoBehaviour {
     }
 
     void MoveInput() {
-        if (Input.GetKey("w")) {
-            front = true;
-        } else front = false;
+        if (!deathAccept) {
+            if (Input.GetKey("w")) {
+                front = true;
+            } else front = false;
 
-        if (Input.GetKey("s")) {
-            back = true;
-        } else back = false;
+            if (Input.GetKey("s")) {
+                back = true;
+            } else back = false;
 
-        if (Input.GetKey("a")) {
-            left = true;
-        } else left = false;
+            if (Input.GetKey("a")) {
+                left = true;
+            } else left = false;
 
-        if (Input.GetKey("d")) {
-            right = true;
-        } else right = false;
+            if (Input.GetKey("d")) {
+                right = true;
+            } else right = false;
 
-        if (Input.GetKeyDown(KeyCode.Space) && up == false && jumpAble) {
-            up = true;
-        } else up = false;
+            if (Input.GetKeyDown(KeyCode.Space) && up == false && jumpAble) {
+                up = true;
+            } else up = false;
 
-        if (front) {
-            straight = 1;
-        }
-        if (back) {
-            straight = -1;
-        }
-        if ((front && back) || (!front && !back)) straight = 0;
+            if (front) {
+                straight = 1;
+            }
+            if (back) {
+                straight = -1;
+            }
+            if ((front && back) || (!front && !back)) straight = 0;
 
-        if (left) {
-            side = -1;
-        }
-        if (right) {
-            side = 1;
-        }
-        if ((left && right) || (!left && !right)) side = 0;
+            if (left) {
+                side = -1;
+            }
+            if (right) {
+                side = 1;
+            }
+            if ((left && right) || (!left && !right)) side = 0;
+        }  
     }
 
     void Move() {
@@ -142,23 +159,54 @@ public class Player : MonoBehaviour {
         RaycastHit hit;
         if(Physics.Raycast(this.transform.position, this.transform.forward, out hit)) {
             if(hit.collider.tag == "Enemy") {
-                //Enemyを止めます
-                
+                Debug.Log("aaa");
+                lightCheck = true;
             }
+            if(lightCheck && lasttimeLightCheck && enemy.activeSelf) {
+                enemyController.Stop();
+            }
+            if(!lightCheck && lasttimeLightCheck && enemy.activeSelf) {
+                enemyController.Restart();
+            }
+            lasttimeLightCheck = lightCheck;
         }
     }
 
     void Death() {
+        deathAccept = true;
         deathImage.enabled = true;
         audioSource.Play();
-        light.enabled = false;
-        StartCoroutine("LoadTitleScene");
+        playerLight.enabled = false;
+        //enemymanegerからEnemy削除
+        enemyManage.PlayerDeath();
+        cameraPosition = mainCamera.transform.position;
+        StartCoroutine("LoadGameOverScene");
+        
     }
 
-    private IEnumerator LoadTitleScene() {
-        yield return new WaitForSeconds(2.0f);
-        SceneManager.LoadScene("StartScene");
+    void StartVibration() {
+        vibration = true;
+    }
+
+    void Vibration() {
+        mainCamera.gameObject.transform.position = new Vector3(cameraPosition.x + Random.Range(-0.1f, 0.1f), cameraPosition.y + Random.Range(-0.1f, 0.1f), cameraPosition.z + Random.Range(-0.1f, 0.1f));
+    }
+
+    private IEnumerator LoadGameOverScene() {
+        StartVibration();
+        yield return new WaitForSeconds(7.0f);
+        SceneManager.LoadScene("GameOver");
         yield break;
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if(collision.collider.tag == "Enemy") {
+            Death();
+
+        }
+        if(collision.collider.tag == "ClearObject") {
+            SceneManager.LoadScene("GameClear");
+        }
     }
 
 }

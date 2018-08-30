@@ -17,6 +17,7 @@ public class EnemyManage : MonoBehaviour
 
     void Awake()
     {
+        SetCanGenerate(true);
         if (playerTrfm == null)
         {
             playerTrfm = GameObject.Find("Player").transform;
@@ -69,5 +70,14 @@ public class EnemyManage : MonoBehaviour
             enemy.SetActive(false);
             destroyTime = Time.fixedTime;
         }
+    }
+
+    public void SetCanGenerate(bool value) {
+        canGenerate = value;
+    }
+
+    public void PlayerDeath() {
+        canGenerate = false;
+        enemy.SetActive(false);
     }
 }
