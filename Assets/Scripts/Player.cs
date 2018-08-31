@@ -157,9 +157,9 @@ public class Player : MonoBehaviour {
 
     void LightUp() {
         RaycastHit hit;
+        lightCheck = false;
         if(Physics.Raycast(this.transform.position, this.transform.forward, out hit)) {
             if(hit.collider.tag == "Enemy") {
-                Debug.Log("aaa");
                 lightCheck = true;
             }
             if(lightCheck && lasttimeLightCheck && enemy.activeSelf) {
