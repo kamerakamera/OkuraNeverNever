@@ -12,8 +12,15 @@ public class SelectSceneButton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        DebugLoadScene();
 	}
+
+    //デバッグ用の関数
+    void DebugLoadScene() {
+        if (Input.GetKeyDown("i")) {
+            SceneManager.LoadScene("Tutorial");
+        }
+    }
 
     public void OnClick(string sceneName) {
         SceneManager.LoadScene(sceneName);
