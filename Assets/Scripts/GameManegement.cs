@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManegement : MonoBehaviour {
-
+    
 	// Use this for initialization
 	void Start () {
         Cursor.visible = false;
@@ -20,5 +21,9 @@ public class GameManegement : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }
+    }
+
+    void EndGame() {
+        SceneManager.LoadScene("GameOver");
     }
 }
