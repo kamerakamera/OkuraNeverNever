@@ -23,7 +23,11 @@ public class GameManegement : MonoBehaviour {
         }
     }
 
-    void EndGame() {
+    public void GameEnd() {
         SceneManager.LoadScene("GameOver");
+    }
+
+    public void GameClear() {
+        SceneManager.LoadScene("GameClear");
     }
 }

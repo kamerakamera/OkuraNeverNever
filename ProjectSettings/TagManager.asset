@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - ClearObject
+  - Button
   layers:
   - Default
   - TransparentFX

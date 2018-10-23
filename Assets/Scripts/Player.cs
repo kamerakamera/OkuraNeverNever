@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     Rigidbody rb;
@@ -24,6 +23,8 @@ public class Player : MonoBehaviour {
     public Camera mainCamera;
     public EnemyManage enemyManage;
     Vector3 cameraPosition;
+    [SerializeField]
+    private GameManegement gameManegement;
 
 
     // Use this for initialization
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour {
     void Update() {
         CheckJumpAble();
         MoveInput();
+        PushButton();
     }
 
     void FixedUpdate() {
@@ -172,6 +174,17 @@ public class Player : MonoBehaviour {
         }
     }
 
+    void PushButton() {
+        RaycastHit hit;
+        if (Input.GetMouseButtonDown(0)) {
+            if (Physics.SphereCast(this.transform.position + new Vector3(0,-0.52f,0), 0.5f,this.transform.forward * 1.0f, out hit,3.0f)) {
+                if(hit.collider.tag == "Button") {
+                    hit.collider.gameObject.GetComponent<Unlocking>().Unlocked();
+                }
+            }
+        }
+    }
+
     void Death() {
         deathAccept = true;
         deathImage.enabled = true;
@@ -195,7 +208,7 @@ public class Player : MonoBehaviour {
     private IEnumerator LoadGameOverScene() {
         StartVibration();
         yield return new WaitForSeconds(7.0f);
-        SceneManager.LoadScene("GameOver");
+        gameManegement.GameEnd();
         yield break;
     }
 
@@ -205,7 +218,7 @@ public class Player : MonoBehaviour {
 
         }
         if(collision.collider.tag == "ClearObject") {
-            SceneManager.LoadScene("GameClear");
+            gameManegement.GameClear();
         }
     }
 
