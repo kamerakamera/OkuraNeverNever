@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unlocking : MonoBehaviour {
-    [SerializeField]
-    GameObject clearObject;
+public class UnlockButton : MonoBehaviour {
     // Use this for initialization
+    [SerializeField]
+    DoorButtonManeger doorButtonManeger;
     void Start() {
-        clearObject.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -15,9 +15,9 @@ public class Unlocking : MonoBehaviour {
         
     }
 
-    public void Unlocked() {
-        clearObject.SetActive(true);
+    public void Accept() {
         ChengeColor();
+        doorButtonManeger.AddLockButtonCount();
     }
 
     void ChengeColor() {

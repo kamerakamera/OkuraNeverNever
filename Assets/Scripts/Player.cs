@@ -179,7 +179,7 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0)) {
             if (Physics.SphereCast(this.transform.position + new Vector3(0,-0.52f,0), 0.5f,this.transform.forward * 1.0f, out hit,3.0f)) {
                 if(hit.collider.tag == "Button") {
-                    hit.collider.gameObject.GetComponent<Unlocking>().Unlocked();
+                    hit.collider.gameObject.GetComponent<UnlockButton>().Accept();
                 }
             }
         }
