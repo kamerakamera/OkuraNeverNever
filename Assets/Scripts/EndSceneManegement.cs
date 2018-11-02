@@ -16,7 +16,7 @@ public class EndSceneManegement : MonoBehaviour {
 	}
 
     void BackTitleScene() {
-        if (Input.GetKeyDown("q")) {
+        if (Input.GetKeyDown(KeyCode.Space)) {
             SceneManager.LoadScene("Start");
         }
     }

@@ -16,7 +16,6 @@ public class Player : MonoBehaviour {
     int straight, side;
     public float movePower,jumpPower;
     AudioSource audioSource;
-    public Image deathImage;
     public Light playerLight;
     public GameObject enemy;
     public EnemyController enemyController;
@@ -33,7 +32,6 @@ public class Player : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         playerLight.enabled = true;
         deathAccept = false;
-        deathImage.enabled = false;
         vibration = false ;
         enemyController = enemy.GetComponent<EnemyController>();
         lightCheck = false;
@@ -187,7 +185,6 @@ public class Player : MonoBehaviour {
 
     void Death() {
         deathAccept = true;
-        deathImage.enabled = true;
         audioSource.Play();
         playerLight.enabled = false;
         //enemymanegerからEnemy削除
